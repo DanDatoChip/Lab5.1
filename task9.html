@@ -1,0 +1,74 @@
+<header>
+    <a href="task2.html">Файл 1</a>
+    <a href="task4.html">Файл 2</a>
+    <a href="task6.html">Файл 3</a>
+    <a href="task8.html">Файл 4</a>
+    <a href="task9.html">Файл 5</a>
+    <a href="task10.html">Файл 6</a>
+</header>
+
+<h1>Твіти</h1>
+<div id="tweets-container"></div>
+<h2>Підрахунок тегів</h2>
+<div id="tag-counts"></div>
+<script>
+    const tweets = [
+  { id: "000", likes: 5, tags: ["js", "nodejs"] },
+  { id: "001", likes: 2, tags: ["html", "css"] },
+  { id: "002", likes: 17, tags: ["html", "js", "nodejs"] },
+  { id: "003", likes: 8, tags: ["css", "react"] },
+  { id: "004", likes: 0, tags: ["js", "nodejs", "react"] },
+];
+
+function countTags(tweets) {
+  const tagCounts = {};
+
+  for (const tweet of tweets) {
+    for (const tag of tweet.tags) {
+      if (tagCounts[tag]) {
+        tagCounts[tag] += 1;
+      } else {
+        tagCounts[tag] = 1;
+      }
+    }
+  }
+
+  return tagCounts;
+}
+
+function displayTweets(tweets) {
+  const tweetsContainer = document.getElementById('tweets-container');
+  tweetsContainer.innerHTML = ''; 
+  tweets.forEach(tweet => {
+    const tweetElement = document.createElement('div');
+    tweetElement.className = 'tweet';
+    const idElement = document.createElement('span');
+    idElement.textContent = `ID: ${tweet.id}`;
+    tweetElement.appendChild(idElement);
+    const likesElement = document.createElement('span');
+    likesElement.textContent = ` | Лайки: ${tweet.likes}`;
+    tweetElement.appendChild(likesElement);
+    const tagsElement = document.createElement('span');
+    tagsElement.textContent = ` | Теги: ${tweet.tags.join(', ')}`;
+    tweetElement.appendChild(tagsElement);
+    tweetsContainer.appendChild(tweetElement);
+  });
+}
+
+function displayTagCounts(tagCounts) {
+  const tagCountsContainer = document.getElementById('tag-counts');
+  tagCountsContainer.innerHTML = ''; 
+  const listElement = document.createElement('ul');
+  tagCountsContainer.appendChild(listElement);
+  for (const [tag, count] of Object.entries(tagCounts)) {
+    const listItemElement = document.createElement('li');
+    listItemElement.textContent = `${tag}: ${count}`;
+    listElement.appendChild(listItemElement);
+  }
+}
+
+displayTweets(tweets);
+const tagCounts = countTags(tweets);
+displayTagCounts(tagCounts);
+
+</script>

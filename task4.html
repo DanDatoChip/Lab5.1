@@ -1,0 +1,43 @@
+<header>
+    <a href="task2.html">Файл 1</a>
+    <a href="task4.html">Файл 2</a>
+    <a href="task6.html">Файл 3</a>
+    <a href="task8.html">Файл 4</a>
+    <a href="task9.html">Файл 5</a>
+    <a href="task10.html">Файл 6</a>
+</header>
+
+<h2>Концерти</h2>
+<input type="date" id="concert-date-input" placeholder="Введіть дату">
+<button id="show-concerts-button" onclick="ShowConcertsButton()">Показати концерти</button>
+<div id="concert-list"></div>
+<script>
+    const concerts = {
+            Київ: new Date("2020-04-01"),
+            Умань: new Date("2025-07-02"),
+            Вінниця: new Date("2020-04-21"),
+            Одеса: new Date("2025-03-15"),
+            Хмельницький: new Date("2020-04-18"),
+            Харків: new Date("2025-07-10"),
+        };
+
+        const getUpcomingConcerts = (selectedDate) => {
+            const concertCities = Object.keys(concerts);
+            const upcomingCities = concertCities.filter(city => concerts[city] >= selectedDate);
+            upcomingCities.sort((city1, city2) => concerts[city1] - concerts[city2]);
+            const concertList = document.getElementById("concert-list");
+            concertList.style.display = "block";
+            concertList.innerHTML = `<h2>Концерти на ${selectedDate.toLocaleDateString()}</h2>`;
+            upcomingCities.forEach(city => {
+            concertList.innerHTML += `<p>${city}</p>`;
+            });    
+        };
+
+        const concertDateInput = document.getElementById("concert-date-input");
+        const showConcertsButton = document.getElementById("show-concerts-button");
+        showConcertsButton.addEventListener("click", () => {
+        const selectedDate = new Date(concertDateInput.value);
+        getUpcomingConcerts(selectedDate);
+
+});
+</script>

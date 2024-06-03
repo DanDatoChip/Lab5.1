@@ -1,0 +1,48 @@
+<header>
+    <a href="task2.html">Файл 1</a>
+    <a href="task4.html">Файл 2</a>
+    <a href="task6.html">Файл 3</a>
+    <a href="task8.html">Файл 4</a>
+    <a href="task9.html">Файл 5</a>
+    <a href="task10.html">Файл 6</a>
+</header>
+
+<div id="original-medicines-list"></div> 
+<div id="discounted-medicines-list"></div>
+<script>
+    
+function applyDiscount(medicines) {
+  let idCounter = 1;
+  const discountedMedicines = medicines.map(medicine => {
+    const priceWithDiscount = medicine.price - (medicine.price * 30) / 100;
+    return {
+      id: idCounter++,
+      name: medicine.name,
+      price: medicine.price >= 300 ? priceWithDiscount : medicine.price,
+    };
+  });
+  return discountedMedicines;
+}
+
+
+const medicines = [
+  { name: "Noshpa", price: 170 },
+  { name: "Analgin", price: 55 },
+  { name: "Quanil", price: 310 },
+  { name: "Alphacholine", price: 390 },
+];
+
+const originalMedicinesList = document.getElementById("original-medicines-list");
+const discountedMedicinesList = document.getElementById("discounted-medicines-list");
+originalMedicinesList.innerHTML = `<h2>Початковий список медикаментів</h2>`;
+medicines.forEach(medicine => {
+  originalMedicinesList.innerHTML += `<p>${medicine.name}: ${medicine.price} грн</p>`;
+});
+
+const discountedMedicines = applyDiscount(medicines);
+
+discountedMedicinesList.innerHTML = `<h2>Список медикаментів зі знижкою</h2>`;
+discountedMedicines.forEach(medicine => {
+  discountedMedicinesList.innerHTML += `<p>ID: ${medicine.id} - ${medicine.name}: ${medicine.price} грн</p>`;
+});
+</script>

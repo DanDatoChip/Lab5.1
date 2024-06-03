@@ -1,0 +1,51 @@
+<header>
+    <a href="task2.html">Файл 1</a>
+    <a href="task4.html">Файл 2</a>
+    <a href="task6.html">Файл 3</a>
+    <a href="task8.html">Файл 4</a>
+    <a href="task9.html">Файл 5</a>
+    <a href="task10.html">Файл 6</a>
+</header>
+
+<h2>Деталі товару</h2>
+<input type="number" id="product-id-input" placeholder="Введіть ID товару">
+<button id="get-details-button" onclick="GetDetailsButton()">Отримати деталі</button>
+<div id="product-details"></div>
+<script>
+    const products = [
+            { id: 1, name: "Телефон", price: 1000 },
+            { id: 2, name: "Ноутбук", price: 2500 },
+            { id: 3, name: "Планшет", price: 1500 },
+        ];
+
+        function getProductDetails(productId, successCallback, errorCallback) {
+            const product = products.find(product => product.id === productId);
+
+            if (product) {
+                successCallback(product);
+            } else {
+                errorCallback("Товар не знайдено");
+            }
+        }
+
+        const productIdInput = document.getElementById("product-id-input");
+        const getDetailsButton = document.getElementById("get-details-button");
+        const productDetailsDiv = document.getElementById("product-details");
+        getDetailsButton.addEventListener("click", () => {
+        const productId = parseInt(productIdInput.value);
+
+            getProductDetails(productId,
+                (product) => {
+                    productDetailsDiv.style.display = "block";
+                    productDetailsDiv.innerHTML = `
+                        <h2>${product.name}</h2>
+                        <p>Ціна: ${product.price}</p>
+                    `;
+                },
+                (errorMessage) => {
+                    productDetailsDiv.style.display = "block";
+                    productDetailsDiv.innerHTML = `<p style="color: red;">${errorMessage}</p>`;
+                }
+            );
+        });
+</script>

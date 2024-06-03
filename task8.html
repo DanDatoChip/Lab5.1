@@ -1,0 +1,106 @@
+<header>
+    <a href="task2.html">Файл 1</a>
+    <a href="task4.html">Файл 2</a>
+    <a href="task6.html">Файл 3</a>
+    <a href="task8.html">Файл 4</a>
+    <a href="task9.html">Файл 5</a>
+    <a href="task10.html">Файл 6</a>
+</header>
+
+<h2>Склад товарів</h2>
+<input type="text" id="newItemInput" placeholder="Вкажіть назву">
+<button onclick="addItem()">Додати</button>
+<button onclick="removeItem()">Видалити</button>
+<ul id="items-container"></ul>
+<div id="error-message"></div>
+<script>
+    
+class Storage {
+  constructor(items) {
+    this.items = items;
+  }
+
+  getItems() {
+    return this.items;
+  }
+
+  addItems(item) {
+    this.items.push(item);
+    handleItemChange(); 
+  }
+
+  removeItem(item) {
+    const index = this.items.indexOf(item);
+    if (index !== -1) {
+      this.items.splice(index, 1);
+      handleItemChange(); 
+    }
+  }
+}
+
+const arr = ["apple", "banana", "mango"];
+const storage = new Storage(arr);
+const itemsContainer = document.getElementById('items-container');
+const newItemInput = document.getElementById('newItemInput');
+const errorMessage = document.getElementById('error-message');
+function updateItemsList() {
+  const items = storage.getItems();
+  itemsContainer.innerHTML = ''; 
+
+  items.forEach(item => {
+    const listItem = document.createElement('li');
+    listItem.textContent = item;
+    itemsContainer.appendChild(listItem);
+  });
+}
+
+function handleItemChange() {
+  updateItemsList();
+}
+
+function addItem() {
+  const newItem = newItemInput.value.trim();
+  if (!newItem) {
+    displayError('Введите название товара');
+    return;
+  }
+
+  if (storage.items.includes(newItem)) {
+    displayError('Этот товар уже существует');
+    return;
+  }
+  storage.addItems(newItem);
+  handleItemChange();
+  newItemInput.value = ''; 
+  displayError(''); 
+}
+
+function removeItem() {
+  const newItem = newItemInput.value.trim();
+  if (!newItem) {
+    displayError('Вкажіть назку товару!');
+    return;
+  }
+
+  if (!storage.items.includes(newItem)) {
+    displayError('Такого товару не було знайдено!');
+    return;
+  }
+
+  storage.removeItem(newItem);
+  handleItemChange();
+  newItemInput.value = '';
+  displayError(''); 
+}
+
+function displayError(message) {
+  errorMessage.textContent = message;
+  if (message) {
+    errorMessage.style.display = 'block';
+  } else {
+    errorMessage.style.display = 'none';
+  }
+}
+updateItemsList();
+
+</script>
